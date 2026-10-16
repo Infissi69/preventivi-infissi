@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#17324d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Preventivi Infissi">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Preventivi Infissi</title>
+<style>
+:root{--navy:#17324d;--blue:#2364aa;--bg:#f3f6fa;--line:#dbe3ec;--text:#1e293b;--muted:#64748b;--white:#fff;--green:#16794b;--red:#b42318}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-size:15px;padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+header{background:var(--navy);color:white;padding:20px 16px 16px;position:sticky;top:0;z-index:5;box-shadow:0 2px 8px #0001}
+.headrow{display:flex;align-items:center;gap:12px}.brandlogo{width:42px;height:42px;object-fit:contain;border-radius:8px;background:#fff;padding:3px;display:none}.brandtitle{font-weight:800;font-size:20px}.subtitle{font-size:12px;opacity:.8;margin-top:3px}
+nav{display:flex;gap:8px;overflow:auto;margin-top:16px;padding-bottom:2px}nav button{border:1px solid #ffffff55;background:#ffffff10;color:#fff;border-radius:999px;padding:9px 13px;white-space:nowrap;font-weight:650}nav button.active{background:#fff;color:var(--navy)}
+main{max-width:900px;margin:0 auto;padding:16px}.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px #172b4d08}.panel h2{font-size:18px;margin:0 0 14px}.panel h3{font-size:15px;margin:0 0 10px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px;min-width:0}.field.full{grid-column:1/-1}label{font-size:12px;color:var(--muted);font-weight:700}input,select,textarea{font:inherit;color:var(--text);background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:11px;width:100%;min-width:0}textarea{min-height:74px;resize:vertical}input:focus,select:focus,textarea:focus{outline:2px solid #93c5fd;border-color:var(--blue)}button{font:inherit;cursor:pointer}.btn{border:0;border-radius:10px;padding:12px 14px;font-weight:750;background:var(--blue);color:white}.btn.secondary{background:#e8eef6;color:var(--navy)}.btn.ghost{background:#fff;border:1px solid var(--line);color:var(--text)}.btn.danger{background:#fff0ef;color:var(--red)}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.item{border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}.itemtop{display:flex;justify-content:space-between;gap:10px;align-items:start}.itemname{font-weight:800}.small{font-size:12px;color:var(--muted);line-height:1.5}.money{font-weight:800;font-variant-numeric:tabular-nums}.totals{background:#f7f9fc;border-radius:12px;padding:14px}.totalrow{display:flex;justify-content:space-between;gap:12px;margin:7px 0}.grand{border-top:1px solid var(--line);padding-top:12px;margin-top:12px;font-size:20px;font-weight:850}.pill{display:inline-block;background:#e8eef6;color:var(--navy);font-size:11px;font-weight:800;padding:4px 7px;border-radius:99px}.hidden{display:none!important}.empty{text-align:center;padding:24px;color:var(--muted)}.savedrow{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.savedrow:last-child{border-bottom:0}.notice{background:#fff8e6;border:1px solid #f5d58a;padding:11px;border-radius:10px;font-size:12px;line-height:1.5}.success{color:var(--green);font-weight:700}.brand-preview{max-width:100px;max-height:70px;object-fit:contain;display:block;margin-top:8px}
+@media(max-width:520px){main{padding:10px}.panel{padding:13px}.grid{grid-template-columns:1fr 1fr;gap:10px}.grid .full{grid-column:1/-1}.btn{padding:11px 12px}.headrow{align-items:center}}
+@media print{body{background:white;padding:0;font-size:12px}header,nav,.no-print,.actions,.notice{display:none!important}main{padding:0;max-width:none}.panel{border:0;box-shadow:none;padding:0;margin:0 0 14px}.print-only{display:block!important}input,select,textarea{border:0;padding:0;appearance:none;background:transparent}.field label{color:#555}.item{break-inside:avoid}.totals{background:white;border:1px solid #ddd}.print-heading{display:block!important}}
+</style>
+</head>
+<body>
+<header>
+ <div class="headrow"><img id="headerLogo" class="brandlogo" alt="Logo azienda"><div><div class="brandtitle" id="headerTitle">Preventivi Infissi</div><div class="subtitle">Alluminio · PVC · Inferriate · Cancelli</div></div></div>
+ <nav class="no-print">
+  <button class="active" data-tab="quote">Nuovo preventivo</button><button data-tab="saved">Archivio</button><button data-tab="settings">Azienda e listino</button>
+ </nav>
+</header>
+<main>
+<section id="tab-quote">
+ <div class="panel">
+  <h2>Nuovo preventivo</h2>
+  <div class="grid">
+   <div class="field"><label for="quoteNo">Numero preventivo</label><input id="quoteNo" placeholder="PREV-0001"></div>
+   <div class="field"><label for="quoteDate">Data</label><input id="quoteDate" type="date"></div>
+   <div class="field"><label for="clientName">Cliente / Ragione sociale</label><input id="clientName" placeholder="Nome cliente"></div>
+   <div class="field"><label for="clientPhone">Telefono</label><input id="clientPhone" type="tel" placeholder="Telefono"></div>
+   <div class="field full"><label for="clientAddress">Indirizzo di installazione / fatturazione</label><input id="clientAddress" placeholder="Via, città, CAP"></div>
+   <div class="field full"><label for="clientEmail">Email cliente</label><input id="clientEmail" type="email" placeholder="email@esempio.it"></div>
+  </div>
+ </div>
+ <div class="panel">
+  <h2>Aggiungi prodotto o lavorazione</h2>
+  <div class="grid">
+   <div class="field"><label for="category">Categoria</label><select id="category"><option>Infissi in alluminio</option><option>Infissi in PVC</option><option>Inferriate</option><option>Cancelli in alluminio</option><option>Posa e servizi</option><option>Altro</option></select></div>
+   <div class="field"><label for="productName">Descrizione / modello</label><input id="productName" placeholder="Es. finestra 2 ante"></div>
+   <div class="field"><label for="width">Larghezza (mm)</label><input id="width" type="number" min="0" step="1" placeholder="1200"></div>
+   <div class="field"><label for="height">Altezza (mm)</label><input id="height" type="number" min="0" step="1" placeholder="1400"></div>
+   <div class="field"><label for="qty">Quantità</label><input id="qty" type="number" min="1" step="1" value="1"></div>
+   <div class="field"><label for="priceMode">Calcolo prezzo</label><select id="priceMode"><option value="sqm">€/m²</option><option value="unit">€/pezzo</option><option value="manual">Importo riga manuale</option></select></div>
+   <div class="field"><label for="unitPrice">Prezzo unitario (€)</label><input id="unitPrice" type="number" min="0" step="0.01" placeholder="0,00"></div>
+   <div class="field"><label for="lineDiscount">Sconto riga (%)</label><input id="lineDiscount" type="number" min="0" max="100" step="0.1" value="0"></div>
+   <div class="field full"><label for="itemNotes">Note / finitura / vetro / accessori</label><input id="itemNotes" placeholder="Colore, vetro, ferramenta, automazione..."></div>
+  </div>
+  <div class="small" id="calcHint" style="margin-top:8px">Inserisci larghezza e altezza in mm; l'area viene convertita automaticamente in m².</div>
+  <div class="actions"><button class="btn" id="addItemBtn">+ Aggiungi al preventivo</button><button class="btn secondary" id="clearItemBtn">Svuota campi prodotto</button></div>
+ </div>
+ <div class="panel">
+  <h2>Righe del preventivo <span class="pill" id="itemCount">0 righe</span></h2>
+  <div id="itemsList"><div class="empty">Ancora nessuna riga. Aggiungi il primo prodotto qui sopra.</div></div>
+ </div>
+ <div class="panel">
+  <h2>Riepilogo economico</h2>
+  <div class="grid">
+   <div class="field"><label for="extraCosts">Trasporto / altri costi (€)</label><input id="extraCosts" type="number" min="0" step="0.01" value="0"></div>
+   <div class="field"><label for="globalDiscount">Sconto complessivo (%)</label><input id="globalDiscount" type="number" min="0" max="100" step="0.1" value="0"></div>
+   <div class="field"><label for="vatRate">IVA (%)</label><input id="vatRate" type="number" min="0" max="100" step="0.1" value="22"></div>
+   <div class="field"><label for="manualTotal">Totale imponibile manuale (€)</label><input id="manualTotal" type="number" min="0" step="0.01" placeholder="Lascia vuoto per automatico"></div>
+  </div>
+  <p class="small">Il totale manuale, se compilato, sostituisce l'imponibile calcolato. Usalo per concordare un importo finale. L'IVA viene calcolata sul totale imponibile modificato.</p>
+  <div class="totals">
+   <div class="totalrow"><span>Totale righe</span><span class="money" id="subtotal">€ 0,00</span></div>
+   <div class="totalrow"><span>Costi aggiuntivi</span><span class="money" id="extrasDisplay">€ 0,00</span></div>
+   <div class="totalrow"><span>Sconto complessivo</span><span class="money" id="discountDisplay">− € 0,00</span></div>
+   <div class="totalrow"><span>Imponibile</span><span class="money" id="taxable">€ 0,00</span></div>
+   <div class="totalrow"><span>IVA (<span id="vatLabel">22</span>%)</span><span class="money" id="vatAmount">€ 0,00</span></div>
+   <div class="totalrow grand"><span>TOTALE PREVENTIVO</span><span id="grandTotal">€ 0,00</span></div>
+  </div>
+  <div class="grid" style="margin-top:14px">
+   <div class="field"><label for="validity">Validità preventivo</label><input id="validity" value="30 giorni"></div>
+   <div class="field"><label for="paymentTerms">Pagamento</label><input id="paymentTerms" placeholder="Es. 40% ordine, saldo a fine lavori"></div>
+   <div class="field full"><label for="generalNotes">Note e condizioni</label><textarea id="generalNotes" placeholder="Tempi di consegna, esclusioni, opere murarie, condizioni di posa..."></textarea></div>
+  </div>
+  <div class="actions no-print"><button class="btn" id="saveBtn">Salva preventivo</button><button class="btn secondary" id="pdfBtn">Stampa / Esporta PDF</button><button class="btn ghost" id="newBtn">Nuovo / azzera</button></div>
+  <p class="small no-print">Per creare un PDF: tocca “Stampa / Esporta PDF”, poi scegli “Salva su File” o “Stampa” dal menu di condivisione del dispositivo/browser.</p>
+ </div>
+</section>
+<section id="tab-saved" class="hidden">
+ <div class="panel"><h2>Archivio preventivi</h2><p class="small">I preventivi sono salvati localmente in questo browser sul dispositivo. Esporta periodicamente una copia dei dati.</p><div id="savedList"><div class="empty">Nessun preventivo salvato.</div></div><div class="actions"><button class="btn secondary" id="exportBtn">Esporta archivio JSON</button><label class="btn ghost" for="importFile" style="cursor:pointer">Importa archivio JSON</label><input id="importFile" class="hidden" type="file" accept="application/json"></div></div>
+</section>
+<section id="tab-settings" class="hidden">
+ <div class="panel">
+  <h2>Dati aziendali</h2>
+  <div class="grid">
+   <div class="field full"><label for="companyName">Nome azienda</label><input id="companyName" placeholder="Nome azienda / artigiano"></div>
+   <div class="field"><label for="companyVat">Partita IVA</label><input id="companyVat" placeholder="IT00000000000"></div>
+   <div class="field"><label for="companyTax">Codice fiscale (facoltativo)</label><input id="companyTax" placeholder="Codice fiscale"></div>
+   <div class="field full"><label for="companyAddress">Indirizzo</label><input id="companyAddress" placeholder="Via, città, CAP"></div>
+   <div class="field"><label for="companyPhone">Telefono</label><input id="companyPhone" type="tel" placeholder="Telefono azienda"></div>
+   <div class="field"><label for="companyEmail">Email</label><input id="companyEmail" type="email" placeholder="email aziendale"></div>
+   <div class="field full"><label for="companyWebsite">Sito web / PEC (facoltativo)</label><input id="companyWebsite" placeholder="Sito o PEC"></div>
+   <div class="field full"><label for="logoFile">Logo aziendale (immagine)</label><input id="logoFile" type="file" accept="image/*"><img id="logoPreview" class="brand-preview hidden" alt="Anteprima logo"><button class="btn ghost hidden" id="removeLogoBtn" type="button">Rimuovi logo</button></div>
+  </div>
+  <div class="actions"><button class="btn" id="saveSettingsBtn">Salva dati aziendali</button></div>
+ </div>
+ <div class="panel">
+  <h2>Listino rapido</h2>
+  <p class="small">Questi prezzi vengono proposti quando selezioni la categoria. Sono valori iniziali vuoti: inserisci i tuoi prezzi reali. Puoi sempre cambiarli nella singola riga.</p>
+  <div class="grid">
+   <div class="field"><label for="priceAlu">Alluminio (€/m²)</label><input id="priceAlu" type="number" min="0" step="0.01" placeholder="es. 450"></div>
+   <div class="field"><label for="pricePvc">PVC (€/m²)</label><input id="pricePvc" type="number" min="0" step="0.01" placeholder="es. 320"></div>
+   <div class="field"><label for="priceIron">Inferriate (€/m²)</label><input id="priceIron" type="number" min="0" step="0.01" placeholder="es. 280"></div>
+   <div class="field"><label for="priceGate">Cancelli alluminio (€/m²)</label><input id="priceGate" type="number" min="0" step="0.01" placeholder="es. 500"></div>
+   <div class="field"><label for="priceService">Posa e servizi (€/pezzo)</label><input id="priceService" type="number" min="0" step="0.01" placeholder="es. 80"></div>
+  </div>
+  <div class="actions"><button class="btn" id="savePricesBtn">Salva listino</button></div>
+ </div>
+ <div class="panel">
+  <h2>Dati e backup</h2><div class="notice">I dati restano sul dispositivo/browser e non vengono inviati a un server. Se cancelli i dati del browser o cambi telefono, potresti perderli: usa “Esporta archivio JSON” nella scheda Archivio per fare una copia. Non inserire dati sensibili non necessari.</div>
+  <div class="actions"><button class="btn danger" id="clearAllBtn">Cancella tutti i dati locali</button></div>
+ </div>
+</section>
+<footer class="small" style="text-align:center;padding:12px">Preventivi Infissi · Prima versione · Verifica sempre aliquote IVA, misure, prezzi e condizioni prima di inviare al cliente.</footer>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const STORAGE_KEY='preventivi_infissi_v1';
+let state={company:{},prices:{},logo:'',quotes:[],items:[],currentId:null};
+const euro=n=>new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR'}).format(Number(n)||0);
+const num=id=>Math.max(0,Number($(id).value)||0);
+const val=id=>$(id).value.trim();
+const today=()=>new Date().toISOString().slice(0,10);
+function load(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');state={...state,...s,company:s.company||{},prices:s.prices||{},quotes:s.quotes||[],items:[]};}catch(e){}}
+function persist(){const copy={...state,items:[]};localStorage.setItem(STORAGE_KEY,JSON.stringify(copy));}
+function setVal(id,v){$(id).value=v??''}
+function moneyRound(n){return Math.round((Number(n)+Number.EPSILON)*100)/100}
+function categoryPrice(cat){const p=state.prices||{};if(cat==='Infissi in alluminio')return p.alu??'';if(cat==='Infissi in PVC')return p.pvc??'';if(cat==='Inferriate')return p.iron??'';if(cat==='Cancelli in alluminio')return p.gate??'';if(cat==='Posa e servizi')return p.service??'';return ''}
+function updatePriceHint(){const cat=val('category');const suggested=categoryPrice(cat);if(suggested!==''&&$('unitPrice').value==='')$('unitPrice').value=suggested;$('calcHint').textContent=val('priceMode')==='sqm'?'Prezzo per m² × area (larghezza × altezza in mm convertite in m²) × quantità.':'Il prezzo unitario o l’importo manuale viene moltiplicato per la quantità.'}
+function calcLine(item){let base=0;if(item.mode==='sqm')base=(item.width/1000)*(item.height/1000)*item.price*item.qty;else if(item.mode==='unit')base=item.price*item.qty;else base=item.price;return moneyRound(base*(1-(Math.min(100,Math.max(0,item.discount))/100)))}
+function getTotals(){const subtotal=moneyRound(state.items.reduce((s,i)=>s+calcLine(i),0));const extras=num('extraCosts');const beforeDiscount=subtotal+extras;const disc=moneyRound(beforeDiscount*Math.min(100,num('globalDiscount'))/100);const auto=moneyRound(Math.max(0,beforeDiscount-disc));const manual=val('manualTotal')!==''?num('manualTotal'):null;const taxable=manual===null?auto:manual;const vat=moneyRound(taxable*num('vatRate')/100);return {subtotal,extras,disc,taxable,vat,total:moneyRound(taxable+vat),auto,manual}}
+function updateTotals(){const t=getTotals();$('subtotal').textContent=euro(t.subtotal);$('extrasDisplay').textContent=euro(t.extras);$('discountDisplay').textContent='− '+euro(t.disc);$('taxable').textContent=euro(t.taxable);$('vatLabel').textContent=num('vatRate').toLocaleString('it-IT');$('vatAmount').textContent=euro(t.vat);$('grandTotal').textContent=euro(t.total)}
+function renderItems(){const box=$('itemsList');$('itemCount').textContent=state.items.length+' righe';if(!state.items.length){box.innerHTML='<div class="empty">Ancora nessuna riga. Aggiungi il primo prodotto qui sopra.</div>';updateTotals();return;}box.innerHTML='';state.items.forEach((it,idx)=>{const div=document.createElement('div');div.className='item';const area=it.width&&it.height?(it.width/1000)*(it.height/1000):0;div.innerHTML=`<div class="itemtop"><div><div class="itemname">${esc(it.name||it.category)}</div><div class="small">${esc(it.category)} · ${it.qty} pz · ${it.mode==='sqm'?area.toLocaleString('it-IT',{maximumFractionDigits:3})+' m² cad.':it.mode==='unit'?'prezzo a pezzo':'importo manuale'}</div>${it.notes?`<div class="small">${esc(it.notes)}</div>`:''}<div class="small">${euro(it.price)} ${it.mode==='sqm'?'/m²':it.mode==='unit'?'/pz':'importo'} · sconto ${it.discount||0}%</div></div><div style="text-align:right"><div class="money">${euro(calcLine(it))}</div><button class="btn ghost" style="padding:7px 9px;margin-top:8px" data-edit="${idx}">Modifica</button> <button class="btn danger" style="padding:7px 9px;margin-top:8px" data-del="${idx}">Elimina</button></div></div>`;box.appendChild(div)});box.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{state.items.splice(+b.dataset.del,1);renderItems()});box.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>editItem(+b.dataset.edit));updateTotals()}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+let editIndex=null;
+function addItem(){const category=val('category'),name=val('productName');const mode=val('priceMode');const width=num('width'),height=num('height'),qty=Math.max(1,num('qty')),price=num('unitPrice'),discount=num('lineDiscount');if(!name){alert('Inserisci una descrizione o un modello.');$('productName').focus();return}if(mode==='sqm'&&(!width||!height)){alert('Per il calcolo €/m² inserisci larghezza e altezza in millimetri.');return}if(price<0){alert('Il prezzo non può essere negativo.');return}const item={category,name,width,height,qty,mode,price,discount,notes:val('itemNotes')};if(editIndex!==null){state.items[editIndex]=item;editIndex=null;$('addItemBtn').textContent='+ Aggiungi al preventivo'}else state.items.push(item);renderItems();clearItemFields()}
+function editItem(i){const it=state.items[i];editIndex=i;setVal('category',it.category);setVal('productName',it.name);setVal('width',it.width);setVal('height',it.height);setVal('qty',it.qty);setVal('priceMode',it.mode);setVal('unitPrice',it.price);setVal('lineDiscount',it.discount);setVal('itemNotes',it.notes);$('addItemBtn').textContent='Aggiorna riga';window.scrollTo({top:0,behavior:'smooth'})}
+function clearItemFields(){['productName','width','height','unitPrice','itemNotes'].forEach(id=>setVal(id,''));setVal('qty','1');setVal('lineDiscount','0');setVal('priceMode','sqm');editIndex=null;$('addItemBtn').textContent='+ Aggiungi al preventivo';updatePriceHint()}
+function formData(){return {id:state.currentId||('q'+Date.now()),number:val('quoteNo')||'PREV-'+String(Date.now()).slice(-6),date:val('quoteDate'),clientName:val('clientName'),clientPhone:val('clientPhone'),clientAddress:val('clientAddress'),clientEmail:val('clientEmail'),items:JSON.parse(JSON.stringify(state.items)),extraCosts:num('extraCosts'),globalDiscount:num('globalDiscount'),vatRate:num('vatRate'),manualTotal:val('manualTotal'),validity:val('validity'),paymentTerms:val('paymentTerms'),generalNotes:val('generalNotes'),totals:getTotals(),updatedAt:new Date().toISOString()}}
+function loadQuote(q){state.currentId=q.id;state.items=JSON.parse(JSON.stringify(q.items||[]));setVal('quoteNo',q.number);setVal('quoteDate',q.date);setVal('clientName',q.clientName);setVal('clientPhone',q.clientPhone);setVal('clientAddress',q.clientAddress);setVal('clientEmail',q.clientEmail);setVal('extraCosts',q.extraCosts??0);setVal('globalDiscount',q.globalDiscount??0);setVal('vatRate',q.vatRate??22);setVal('manualTotal',q.manualTotal??'');setVal('validity',q.validity??'30 giorni');setVal('paymentTerms',q.paymentTerms);setVal('generalNotes',q.generalNotes);renderItems();showTab('quote');window.scrollTo({top:0,behavior:'smooth'})}
+function saveQuote(){if(!state.items.length&&!confirm('Non hai aggiunto righe. Vuoi salvare comunque?'))return;const q=formData();state.currentId=q.id;const i=state.quotes.findIndex(x=>x.id===q.id);if(i>=0)state.quotes[i]=q;else state.quotes.unshift(q);persist();renderSaved();alert('Preventivo salvato su questo dispositivo.')}
+function renderSaved(){const box=$('savedList');if(!state.quotes.length){box.innerHTML='<div class="empty">Nessun preventivo salvato.</div>';return}box.innerHTML='';state.quotes.slice().sort((a,b)=>(b.updatedAt||'').localeCompare(a.updatedAt||'')).forEach(q=>{const row=document.createElement('div');row.className='savedrow';row.innerHTML=`<div style="min-width:0"><div style="font-weight:800">${esc(q.number)} · ${esc(q.clientName||'Cliente non indicato')}</div><div class="small">${esc(q.date||'')} · ${euro(q.totals?.total||0)} · ${(q.items||[]).length} righe</div></div><div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end"><button class="btn secondary" data-open="${esc(q.id)}">Apri</button><button class="btn danger" data-remove="${esc(q.id)}">Elimina</button></div>`;box.appendChild(row)});box.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{const q=state.quotes.find(x=>x.id===b.dataset.open);if(q)loadQuote(q)});box.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{if(confirm('Eliminare questo preventivo?')){state.quotes=state.quotes.filter(x=>x.id!==b.dataset.remove);if(state.currentId===b.dataset.remove)state.currentId=null;persist();renderSaved()}})}
+function showTab(tab){document.querySelectorAll('main>section').forEach(s=>s.classList.toggle('hidden',s.id!=='tab-'+tab));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));if(tab==='saved')renderSaved()}
+function saveSettings(){state.company={name:val('companyName'),vat:val('companyVat'),tax:val('companyTax'),address:val('companyAddress'),phone:val('companyPhone'),email:val('companyEmail'),website:val('companyWebsite')};persist();updateHeader();alert('Dati aziendali salvati.')}
+function savePrices(){state.prices={alu:val('priceAlu')===''?undefined:num('priceAlu'),pvc:val('pricePvc')===''?undefined:num('pricePvc'),iron:val('priceIron')===''?undefined:num('priceIron'),gate:val('priceGate')===''?undefined:num('priceGate'),service:val('priceService')===''?undefined:num('priceService')};persist();alert('Listino salvato.')}
+function updateHeader(){const c=state.company||{};$('headerTitle').textContent=c.name||'Preventivi Infissi';$('headerLogo').style.display=state.logo?'block':'none';if(state.logo)$('headerLogo').src=state.logo}
+function fillSettings(){const c=state.company||{},p=state.prices||{};setVal('companyName',c.name);setVal('companyVat',c.vat);setVal('companyTax',c.tax);setVal('companyAddress',c.address);setVal('companyPhone',c.phone);setVal('companyEmail',c.email);setVal('companyWebsite',c.website);setVal('priceAlu',p.alu);setVal('pricePvc',p.pvc);setVal('priceIron',p.iron);setVal('priceGate',p.gate);setVal('priceService',p.service);if(state.logo){$('logoPreview').src=state.logo;$('logoPreview').classList.remove('hidden');$('removeLogoBtn').classList.remove('hidden')}}
+function resetQuote(){if((state.items.length||val('clientName'))&&!confirm('Vuoi azzerare il preventivo corrente? Assicurati di averlo salvato.'))return;state.items=[];state.currentId=null;['clientName','clientPhone','clientAddress','clientEmail','manualTotal','paymentTerms','generalNotes'].forEach(id=>setVal(id,''));setVal('quoteNo','PREV-'+String(Date.now()).slice(-6));setVal('quoteDate',today());setVal('extraCosts','0');setVal('globalDiscount','0');setVal('vatRate','22');setVal('validity','30 giorni');renderItems();clearItemFields()}
+function exportData(){const blob=new Blob([JSON.stringify({...state,items:[]},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='backup-preventivi-infissi-'+today()+'.json';a.click();URL.revokeObjectURL(a.href)}
+function printQuote(){if(!state.items.length&&!confirm('Non ci sono righe. Vuoi aprire comunque la stampa?'))return;saveForPrintHeader();window.print()}
+function saveForPrintHeader(){const old=document.getElementById('printHeader');if(old)old.remove();const c=state.company||{};const h=document.createElement('div');h.id='printHeader';h.className='print-heading';h.style.display='none';h.innerHTML=`<div style="display:flex;gap:16px;align-items:center;border-bottom:2px solid #17324d;padding-bottom:12px;margin-bottom:16px">${state.logo?`<img src="${state.logo}" style="max-width:100px;max-height:75px;object-fit:contain">`:''}<div><h1 style="margin:0 0 5px">${esc(c.name||'Preventivo')}</h1><div>${esc(c.address||'')}</div><div>${esc(c.phone||'')} ${esc(c.email||'')}</div><div>${c.vat?'P.IVA '+esc(c.vat):''} ${c.tax?' · C.F. '+esc(c.tax):''}</div></div></div><h2 style="margin:0 0 12px">PREVENTIVO ${esc(val('quoteNo'))}</h2>`;$('tab-quote').prepend(h)}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+$('addItemBtn').onclick=addItem;$('clearItemBtn').onclick=clearItemFields;$('saveBtn').onclick=saveQuote;$('pdfBtn').onclick=printQuote;$('newBtn').onclick=resetQuote;$('saveSettingsBtn').onclick=saveSettings;$('savePricesBtn').onclick=savePrices;$('exportBtn').onclick=exportData;
+['extraCosts','globalDiscount','vatRate','manualTotal'].forEach(id=>$(id).addEventListener('input',updateTotals));
+$('category').onchange=()=>{const p=categoryPrice(val('category'));if(p!==''&&$('unitPrice').value==='')$('unitPrice').value=p;updatePriceHint()};$('priceMode').onchange=updatePriceHint;
+$('logoFile').onchange=e=>{const f=e.target.files[0];if(!f)return;if(f.size>1500000){alert('Scegli un logo inferiore a 1,5 MB.');e.target.value='';return}const r=new FileReader();r.onload=()=>{state.logo=r.result;$('logoPreview').src=state.logo;$('logoPreview').classList.remove('hidden');$('removeLogoBtn').classList.remove('hidden');persist();updateHeader()};r.readAsDataURL(f)};
+$('removeLogoBtn').onclick=()=>{state.logo='';$('logoPreview').classList.add('hidden');$('removeLogoBtn').classList.add('hidden');$('logoFile').value='';persist();updateHeader()};
+$('clearAllBtn').onclick=()=>{if(confirm('ATTENZIONE: cancellare azienda, listino e tutti i preventivi da questo browser? Esporta prima un backup se necessario.')){localStorage.removeItem(STORAGE_KEY);state={company:{},prices:{},logo:'',quotes:[],items:[],currentId:null};location.reload()}};
+$('importFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!confirm('Importare questo backup? I preventivi con lo stesso ID potrebbero essere sostituiti.'))return;state.company=d.company||state.company;state.prices=d.prices||state.prices;state.logo=d.logo||state.logo;const map=new Map(state.quotes.map(q=>[q.id,q]));(d.quotes||[]).forEach(q=>map.set(q.id,q));state.quotes=[...map.values()];persist();fillSettings();updateHeader();renderSaved();alert('Backup importato.')}catch(err){alert('File non valido.')}e.target.value=''};r.readAsText(f)};
+load();fillSettings();updateHeader();setVal('quoteDate',today());setVal('quoteNo','PREV-'+String(Date.now()).slice(-6));renderItems();renderSaved();
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+</script>
+</body>
+</html>
